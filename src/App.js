@@ -6,6 +6,8 @@ import Lifecycles from './component/lifecycles.component';
 
 import Clicks from './component/clicks.component';
 
+import {promiseFunction, asyncFunction, noFunctionSynchronizaton} from './async.js';
+
 /*
 Upon 
 */
@@ -19,13 +21,14 @@ class App extends React.Component {
     return formatted_date;
   }
 
+
   constructor(props) {
 
     console.log('App constructor!');
 
     super(props);
     this.state = {
-      meaningOfLife: "Peace, Love, and Happiness",
+      meaningOfLife: "Click Me & Toggle Header buttons show LifeCycle events in console.",
       lastUpdated: "",
       clicks:0,
       pageLoaded: this.formatDate(props.pageLoaded),
@@ -103,6 +106,11 @@ class App extends React.Component {
 
   }
 
+  callPromiseAndAsynch = () => {
+    promiseFunction();
+    asyncFunction();
+  }
+
 
   render() {
 
@@ -111,20 +119,34 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <br/>
-          <button onClick={this.handleClicks}>click me!</button> 
-          <br/>
-          <button onClick={this.toggleHeader}>toggle header</button>
+          <h1>REACT CONCEPTS</h1>
+          <p><b>Snippets of code to demonstrate react concepts in action.</b></p>
           <img src={logo} className="App-logo" alt="logo" />
+          <br/>
+          <b>{this.state.showHeader ? <Lifecycles text={this.state.meaningOfLife} /> : ''}</b>
           <p>PageLoaded: {this.state.pageLoaded}</p>
           <Clicks clicks={this.state.clicks} lastUpdated={this.state.lastUpdated}/>
-                  
-          <b>{this.state.showHeader ? <Lifecycles text={this.state.meaningOfLife} /> : ''}</b>
+          <br/>
+          <div className='buttons'>
+            <button onClick={this.handleClicks}>click me!</button> 
+            <button onClick={this.toggleHeader}>toggle header</button>
+          </div>
+          <h3>Control Asyncronous Calls</h3>
+          <p><b>Click buttons below quickly to view synchronized calls to asyncronous functions in console.</b></p>  
+          <div className='buttons'>
+            <button onClick={promiseFunction}>Call promiseFunction Only</button>
+            <button onClick={asyncFunction}>Call asyncFunction Only</button>
+            <button onClick={this.callPromiseAndAsynch}>Execute Both</button>
+            <button onClick={noFunctionSynchronizaton}>No Synchronization</button>
+            
+            
+          </div>
         </header>
       </div>
     );
 
   }
+
 }
 
 export default App;
